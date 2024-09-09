@@ -1,0 +1,27 @@
+<%- include('inc/header.ejs') %>
+
+<div class="container-fluid" style="max-width: 970px">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          Login
+        </div>
+        <div class="card-body text-center">
+          <form action="/auth" method="post">
+            <!-- <label for="username">
+              <i class="fas fa-user"></i>
+            </label>
+            <input type="text" name="username" placeholder="Username" id="username" required> -->
+            <label for="password">
+              <i class="fas fa-lock"></i>
+            </label>
+            <input type="password" name="password" placeholder="Password" id="password" inputmode="numeric" required><br /><br />
+            <input class="btn btn-primary" type="submit" value="Login">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<%- include('inc/footer.ejs') %>
