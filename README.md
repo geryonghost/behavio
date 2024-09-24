@@ -8,9 +8,6 @@ If you would like to continue the work, feel free to continue working with our l
 ## Struggles
 - We have limited input to create valuable models.
 
-## Help
-We would like to move this project forward, but need help being able to use AI to scrape websites efficiently and cost effectively.
-
 # Development
 ## Install Dependencies
 Local applications

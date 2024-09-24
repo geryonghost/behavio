@@ -11,7 +11,7 @@ const lunarEmoji = {
     'First Quarter': '🌓',
     'Waxing Gibbous': '🌔',
     'Full Moon': '🌕',
-    'Waning Gibboud': '🌖',
+    'Waning Gibbous': '🌖',
     'Last Quarter': '🌗',
     'Waning Crescent': '🌘',
 }

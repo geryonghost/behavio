@@ -1,0 +1,35 @@
+<%
+appEnvironment == locals.appEnvironment
+%>
+
+<%- include('inc/header.ejs') %>
+
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h4>Welcome to Behavio: Unlocking the Patterns Behind Student Behavior</h4>
+          At <i>Behavio</i>, we believe that understanding student behavior goes beyond the classroom. Our app is designed to track daily behavior patterns while integrating environmental factors like the lunar cycle and barometric pressure. By capturing and analyzing these unique data points, <i>Behavio</i> empowers educators, researchers, and parents to identify correlations that could influence behavior, offering deeper insights into student well-being and performance.
+          <br /><br />
+          <h6>Why Behavio?</h6>
+          <ul>
+            <li><strong>Daily Behavior Tracking:</strong> Simple, intuitive logging of student behavior, tailored for educators.</li>
+            <li><strong>Lunar Cycle Analysis:</strong> Discover how different phases of the moon might affect emotional or behavioral responses.</li>
+            <li><strong>Barometric Pressure Data:</strong> Monitor atmospheric pressure trends and explore their potential impact on mood and focus.</li>
+            <li><strong>Data-Driven Insights:</strong> Uncover patterns that help guide classroom strategies, wellness initiatives, and educational approaches.</li>
+          </ul>
+          Start your journey with <i>Behavio</i> and explore the hidden connections between the environment and behavior. Together, we can create learning environments that respond to the rhythms of nature and foster healthier, more productive students.
+          <br /><br />
+          For more information, please email us at:
+          <script language="javaScript">
+            user = 'info';
+            site = 'behavio.cc';
+            document.write('<a href=\"mailto:' + user + '@' + site + '\" target=\"_new\">');
+            document.write(user + '@' + site + '</a>');
+          </script><br />
+        </div>
+      </div>
+    </div>
+  </div>
+
+<%- include('inc/footer.ejs') %>
