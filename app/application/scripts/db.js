@@ -1,5 +1,4 @@
-// const databaseConnectionString = process.env.databaseConnectionString
-const databaseConnectionString = 'mongodb://localhost:27017'
+const databaseConnectionString = process.env.databaseConnectionString
 
 const { MongoClient } = require('mongodb')
 

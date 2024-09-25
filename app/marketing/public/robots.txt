@@ -4,4 +4,4 @@ Disallow: /
 User-agent: *
 Disallow: /
 
-Sitemap: https://behavio.comtily.com/sitemap.xml
+Sitemap: https://behavio.cc/sitemap.xml

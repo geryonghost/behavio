@@ -1,6 +1,8 @@
+const appEnvironment = process.env.environment
+const appStatus = process.env.status
+
 const express = require('express')
 const app = express()
-const appPort = '3000'
 const { render } = require('ejs')
 
 const session = require('express-session')
@@ -28,13 +30,21 @@ app.use(
 app.get('', async (req, res) => {
     // req.session.loggedin = true
     // req.session.team = 'Mill Street'
-    if (req.session.loggedin) {
-        const pageTitle = 'Behavio'
-        const entries = await logic.getEntries(req.session.team)
-        res.render('index', { pageTitle: pageTitle, entries: entries })
+    if (appStatus != 'maintenance') {
+        if (req.session.loggedin) {
+            const pageTitle = 'Behavio'
+            const entries = await logic.getEntries(req.session.team)
+            if (entries.length === 0) {
+                res.render('error', { pageTitle: 'Error', message: 'An error occurred while fetching entries.' })
+            } else {
+                res.render('index', { pageTitle: pageTitle, entries: entries })
+            }
+        } else {
+            const pageTitle = 'Login'
+            res.redirect('/login')
+        }
     } else {
-        const pageTitle = 'Login'
-        res.redirect('/login')
+    res.render('maintenance')
     }
 })
 
@@ -68,10 +78,9 @@ app.post('/auth', async (req, res) => {
     if (password) {
         const client = getClient()
         const db = client.db(databaseName)
-
         const users = db.collection('accounts')
         try {
-            const filter = { team: 'Dev Team', password: password }
+            const filter = { team: 'Mill Street', password: password }
             const user = await users.findOne(filter)
             if (user != null) {
                 req.session.loggedin = true
@@ -80,14 +89,14 @@ app.post('/auth', async (req, res) => {
                 res.redirect('/')
             } else {
                 const error = 'Bad login'
-                console.error('Error', 'Bad login')
+                console.error('BEH:Error', 'Bad login')
             }
         } catch (error) {
-            console.error('Error', error)
+            console.error('BEH:Error', error)
         }
     } else {
         const error = 'Empty login'
-        console.error('Error', 'Empty Login')
+        console.error('BEH:Error', 'Empty Login')
     }
 })
 
@@ -96,8 +105,4 @@ app.get('*', function (req, res) {
     res.redirect('/')
 })
 
-// Start the server
-app.listen(appPort, () => {
-    console.log(`Server listening on port ${appPort}`);
-});
-
+module.exports = app

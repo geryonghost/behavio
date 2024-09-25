@@ -1,10 +1,27 @@
 {
+  "name": "app",
+  "version": "0.0.1",
+  "description": "Behavio.cc site",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geryonghost/behavio.git"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/geryonghost/behavio/issues"
+  },
+  "homepage": "https://github.com/geryonghost/behavio#readme",
   "dependencies": {
     "axios": "^1.7.7",
     "connect-mongo": "^5.1.0",
     "ejs": "^3.1.10",
-    "express": "^4.19.2",
+    "express": "^4.21.0",
     "express-session": "^1.18.0",
-    "nodemon": "^3.1.4"
+    "vhost": "^3.0.2"
   }
 }

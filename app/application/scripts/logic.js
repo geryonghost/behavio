@@ -11,7 +11,7 @@ const lunarEmoji = {
     'First Quarter': '🌓',
     'Waxing Gibbous': '🌔',
     'Full Moon': '🌕',
-    'Waning Gibboud': '🌖',
+    'Waning Gibbous': '🌖',
     'Last Quarter': '🌗',
     'Waning Crescent': '🌘',
 }
@@ -117,7 +117,7 @@ async function getEntries(team) {
         entries = await collection.find(filter).sort(sort).toArray()
     } catch (error) {
         console.error('Error', 'getting entries from DB', error)
-        entries = ('Error', 'getting entries from DB', error)
+        entries = []
     }
     return entries
 }
