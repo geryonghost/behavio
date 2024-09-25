@@ -34,7 +34,11 @@ app.get('', async (req, res) => {
         if (req.session.loggedin) {
             const pageTitle = 'Behavio'
             const entries = await logic.getEntries(req.session.team)
-            res.render('index', { pageTitle: pageTitle, entries: entries })
+            if (entries.length === 0) {
+                res.render('error', { pageTitle: 'Error', message: 'An error occurred while fetching entries.' })
+            } else {
+                res.render('index', { pageTitle: pageTitle, entries: entries })
+            }
         } else {
             const pageTitle = 'Login'
             res.redirect('/login')
