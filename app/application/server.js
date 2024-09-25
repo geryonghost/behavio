@@ -74,19 +74,14 @@ app.post('/addentry', async (req, res) => {
 app.post('/auth', async (req, res) => {
     // let username = request.body.username;
     let password = req.body.password
-    console.log(password)
     // // if (username && password) {
     if (password) {
         const client = getClient()
-        console.log(client)
         const db = client.db(databaseName)
-
         const users = db.collection('accounts')
         try {
             const filter = { team: 'Mill Street', password: password }
-            console.log(filter)
             const user = await users.findOne(filter)
-            console.log(user)
             if (user != null) {
                 req.session.loggedin = true
                 req.session.team = user.team
