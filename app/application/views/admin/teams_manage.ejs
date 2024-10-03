@@ -1,0 +1,38 @@
+<%
+    if (locals.teams != null && locals.teams != undefined) {
+        teams = locals.teams
+    }
+%>
+     <!-- Font Awesome-->
+     <script src="/js/fontawesome.js" crossorigin="anonymous"></script>
+
+Manage Teams (<a href="/admin/teams_new">New Team</a>)
+
+<% if (teams.length > 0) { %>
+    <br />
+    <div class="row">
+      <div class="col">
+        <div class="card-body">
+          <table class="table table-primary" border="1">
+            <thead>
+              <tr>
+                <td>Name</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <% teams.forEach((team) => { %>
+                <tr>
+                    <td><%=team.name%></td>
+                    <td>
+                        <a href="/admin/teams_edit?id=<%=team._id%>"><i class="fa-solid fa-pencil"></i></a>
+                        <a href="/teamsdelete?id=<%=team._id%>"><i class="fa-regular fa-trash-can"></i></a>
+                    </td>
+                </tr>
+            <% }) %>
+            </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+<% } %>

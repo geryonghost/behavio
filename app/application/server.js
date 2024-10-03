@@ -92,6 +92,30 @@ app.post('/deleteentry', async (req, res) => {
     }
 })
 
+app.post('/teamsadd', async (req, res) => {
+    query = {
+        _id: req.body.id,
+        name: req.body.name
+    }
+
+    const msg = await logic.addTeam(query)
+    if (msg != null && msg != undefined) {
+        res.redirect('/')
+    } else {
+        res.redirect('/?msg=' + msg)
+    }
+})
+app.get('/teamsdelete', async (req, res) => {
+    const teamId = req.query.id
+console.log(teamId)
+    const msg = await logic.deleteTeam(teamId)
+    if (msg != null && msg != undefined) {
+        res.redirect('/')
+    } else {
+        res.redirect('/?msg=' + msg)
+    }
+})
+
 app.post('/auth', async (req, res) => {
     // let username = request.body.username;
     let password = req.body.password
@@ -135,14 +159,43 @@ app.get('/admin/entry_edit', async (req, res) => {
 })
 app.get('/admin/entry_delete', async (req, res) => {
     const pageTitle = 'Entry Delete'
-    const entryId = req.query.entryid
-    const entry = await logic.getEntry(entryId)
     if (req.session.type == 'admin') {
+        const entryId = req.query.entryid
+        const entry = await logic.getEntry(entryId)
         res.render('admin/entry_delete', { pageTitle: pageTitle, entry: entry })
     } else {
         res.redirect(req.get('Referrer'))
     }
 })
+app.get('/admin/teams_manage', async (req, res) => {
+    const pageTitle = 'Teams: Manage'
+    if (req.session.type == 'admin') {
+        const teams = await logic.getTeams()
+        res.render('admin/teams_manage', { pageTitle: pageTitle, teams: teams })
+    } else {
+        res.redirect(req.get('Referrer'))
+    }
+})
+app.get('/admin/teams_edit', async (req, res) => {
+    const pageTitle = 'Teams: Edit'
+    if (req.session.type == 'admin') {
+        const teamId = req.query.id
+        const team = await logic.getTeam(teamId)
+        res.render('admin/teams_edit', { pageTitle: pageTitle, team: team })
+    } else {
+        res.redirect(req.get('Referrer'))
+    }
+})
+app.get('/admin/teams_new', async (req, res) => {
+    const pageTitle = 'Teams: New'
+    if (req.session.type == 'admin') {
+        // const teams = await logic.getTeams()
+        res.render('admin/teams_new', { pageTitle: pageTitle })
+    } else {
+        res.redirect(req.get('Referrer'))
+    }
+})
+
 
 //The 404 Route (ALWAYS Keep this as the last route)
 app.get('*', function (req, res) {

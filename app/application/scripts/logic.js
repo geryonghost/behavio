@@ -160,9 +160,91 @@ async function getEntries(team) {
     return entries
 }
 
+async function addTeam(query) {
+    console.log('Add team')
+
+    try {
+        if (query != null) {
+            const client = getClient()
+            const db = client.db(databaseName)
+
+            let objectId
+            if (query._id != null) {
+                objectId = getObjectId(query._id)
+            } else {
+                objectId = getObjectId()
+            }
+
+            const details = {
+                name: query.name
+            }
+
+            const collection = db.collection('teams')
+            await collection.updateOne(
+                { _id: objectId },
+                { $set: details },
+                { upsert: true }
+            )
+        }
+    } catch (error) {
+        console.error('Error', 'inserting team into DB', error)
+    }
+}
+async function deleteTeam(teamId) {
+    console.log('Delete team')
+    const client = getClient()
+    const db = client.db(databaseName)
+
+    const objectId = getObjectId(teamId)
+    let team
+    try {
+        const collection = db.collection('teams')
+        team = await collection.deleteOne({'_id': objectId})
+    } catch (error) {
+        console.error('Error', 'deleting team from DB', error)
+        team = null
+    }
+    return team
+}
+
+async function getTeam(teamId) {
+    const client = getClient()
+    const db = client.db(databaseName)
+
+    const objectId = getObjectId(teamId)
+    let team
+    try {
+        const collection = db.collection('teams')
+        team = await collection.findOne({'_id': objectId})
+    } catch (error) {
+        console.error('Error', 'getting team from DB', error)
+        team = null
+    }
+    return team
+}
+
+async function getTeams() {
+    const client = getClient()
+    const db = client.db(databaseName)
+
+    let teams
+    try {
+        const collection = db.collection('teams')
+        teams = await collection.find().toArray()
+    } catch (error) {
+        console.error('Error', 'getting teams from DB', error)
+        teams = null
+    }
+    return teams
+}
+
 module.exports = {
     addEntry,
     deleteEntry,
     getEntry,
     getEntries,
+    addTeam,
+    deleteTeam,
+    getTeam,
+    getTeams,
 }
