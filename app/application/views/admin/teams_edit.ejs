@@ -1,0 +1,12 @@
+<%
+if (locals.team != null && locals.team != undefined) {
+    team = locals.team
+}
+%>
+
+Edit team
+<form action="/teamsadd" method="post">
+    Name: <input type="text" id="name" name="name" value="<%=team.name%>"><br />
+    <input type="hidden" id="id" name="id" value="<%=team._id%>">
+    <input class="btn btn-primary" type="submit" value="Submit">
+</form>

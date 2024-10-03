@@ -1,0 +1,16 @@
+<%
+if (locals.user != null && locals.user != undefined) {
+    user = locals.user
+}
+%>
+
+Edit User
+<form action="/usersadd" method="post">
+    Name: <input type="text" id="name" name="name" value="<%=user.name%>"><br />
+    Team: <input type="text" id="team" name="team" value="<%=user.team%>"><br />
+    Zip Code: <input type="text" id="zipcode" name="zipcode" value="<%=user.zipcode%>"><br />
+    Type: <input type="text" id="type" name="type" value="<%=user.type%>"><br />
+    Password: <input type="text" id="password" name="password" value="<%=user.password%>"><br />
+    <input type="hidden" id="id" name="id" value="<%=user._id%>">
+    <input class="btn btn-primary" type="submit" value="Submit">
+</form>

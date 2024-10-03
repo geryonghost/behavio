@@ -1,6 +1,6 @@
 const databaseConnectionString = process.env.databaseConnectionString
 
-const { MongoClient } = require('mongodb')
+const { MongoClient, ObjectId } = require('mongodb')
 
 const databaseName = 'behavio'
 
@@ -16,4 +16,14 @@ function getClient() {
     return client
 }
 
-module.exports = { connectToDatabase, getClient, databaseName }
+function getObjectId(id) {
+    const objectId = new ObjectId(id)
+    return objectId
+}
+
+module.exports = { 
+    connectToDatabase, 
+    getClient, 
+    getObjectId, 
+    databaseName 
+}
