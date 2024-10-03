@@ -238,6 +238,89 @@ async function getTeams() {
     return teams
 }
 
+async function addUser(query) {
+    console.log('Add user')
+
+    try {
+        if (query != null) {
+            const client = getClient()
+            const db = client.db(databaseName)
+
+            let objectId
+            if (query._id != null && query._id != '') {
+                objectId = getObjectId(query._id)
+            } else {
+                objectId = getObjectId()
+            }
+            
+            const details = {
+                name: query.name,
+                team: query.team,
+                zipcode: query.zipcode,
+                type: query.type,
+                password: query.password,
+                active: true
+            }
+
+            const collection = db.collection('accounts')
+            await collection.updateOne(
+                { _id: objectId },
+                { $set: details },
+                { upsert: true }
+            )
+        }
+    } catch (error) {
+        console.error('Error', 'inserting user into DB', error)
+    }
+}
+async function deleteUser(userId) {
+    console.log('Delete user')
+    const client = getClient()
+    const db = client.db(databaseName)
+
+    const objectId = getObjectId(userId)
+    let user
+    try {
+        const collection = db.collection('accounts')
+        user = await collection.deleteOne({'_id': objectId})
+    } catch (error) {
+        console.error('Error', 'deleting user from DB', error)
+        user = null
+    }
+    return user
+}
+
+async function getUser(userId) {
+    const client = getClient()
+    const db = client.db(databaseName)
+
+    const objectId = getObjectId(userId)
+    let user
+    try {
+        const collection = db.collection('accounts')
+        user = await collection.findOne({'_id': objectId})
+    } catch (error) {
+        console.error('Error', 'getting user from DB', error)
+        user = null
+    }
+    return user
+}
+
+async function getUsers() {
+    const client = getClient()
+    const db = client.db(databaseName)
+
+    let users
+    try {
+        const collection = db.collection('accounts')
+        users = await collection.find().toArray()
+    } catch (error) {
+        console.error('Error', 'getting users from DB', error)
+        users = null
+    }
+    return users
+}
+
 module.exports = {
     addEntry,
     deleteEntry,
@@ -247,4 +330,8 @@ module.exports = {
     deleteTeam,
     getTeam,
     getTeams,
+    addUser,
+    deleteUser,
+    getUser,
+    getUsers,
 }
