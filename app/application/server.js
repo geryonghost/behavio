@@ -39,11 +39,11 @@ app.get('', async (req, res) => {
                 return
             }
             const entries = await logic.getEntries(req.session.team)
-            if (entries.length === 0) {
-                res.render('error', { pageTitle: 'Error', message: 'An error occurred while fetching entries.' })
-            } else {
+            // if (entries.length === 0) {
+            //     res.render('error', { pageTitle: 'Error', message: 'An error occurred while fetching entries.' })
+            // } else {
                 res.render('index', { pageTitle: pageTitle, entries: entries, userType: req.session.type })
-            }
+            // }
         } else {
             const pageTitle = 'Login'
             res.redirect('/login')
@@ -151,7 +151,7 @@ app.post('/auth', async (req, res) => {
         const db = client.db(databaseName)
         const users = db.collection('accounts')
         try {
-            const filter = { team: 'Mill Street', active: true, password: password }
+            const filter = { team: 'Demo Team', active: true, password: password }
             const user = await users.findOne(filter)
             if (user != null) {
                 req.session.loggedin = true
