@@ -1,0 +1,58 @@
+<%
+if (locals.entry != "" && locals.entry != undefined) {
+    entry = locals.entry
+}
+%>
+
+<%- include('inc/header.ejs') %>
+
+<style>
+    /* Hide the default radio button */
+    input[type="radio"] {
+      display: none;
+    }
+    
+    /* Style for the label that will represent the radio button */
+    .radio-label {
+      display: inline-block;
+      margin-bottom: 5px;
+      margin-right: 10px;
+      padding: 5px 20px;
+      border: 2px solid #ddd;
+      border-radius: 15px;
+      cursor: pointer;
+    }
+    
+    /* Style when the radio button is checked */
+    input[type="radio"]:checked + .radio-label {
+      border-color: #000000;
+    }
+    </style>
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-body text-center">
+              <form action="/addentry" method="post">
+                <input type="radio" id="1" name="rating" value="1" required  <% if (entry.rating == 1) { %> checked <% } %> />
+                <label class="radio-label bg-success" for="1"><i class="fa-regular fa-face-grin fa-xl"></i></label>
+                <input type="radio" id="2" name="rating" value="2" <% if (entry.rating == 2) { %> checked <% } %> />
+                <label class="radio-label bg-info" for="2"><i class="fa-regular fa-face-smile fa-xl"></i></label>
+                <input type="radio" id="3" name="rating" value="3" <% if (entry.rating == 3) { %> checked <% } %> />
+                <label class="radio-label bg-light" for="3"><i class="fa-regular fa-face-meh fa-xl"></i></label><br />
+                <input type="radio" id="4" name="rating" value="4" <% if (entry.rating == 4) { %> checked <% } %> />
+                <label class="radio-label bg-warning" for="4"><i class="fa-regular fa-face-frown fa-xl"></i></label>
+                <input type="radio" id="5" name="rating" value="5" <% if (entry.rating == 5) { %> checked <% } %> />
+                <label class="radio-label bg-danger" for="5"><i class="fa-regular fa-face-angry fa-xl"></i></label><br /><br />
+    
+                <label for="date" class="form-label">Date</label><br />
+                <input type="date" name="date" placeholder="*Date" required value="<%-entry.date%>"><br /><br />
+    
+                <input type="hidden" name="objectId" value="<%-entry._id%>" />
+                <input class="btn btn-primary" type="submit" value="Submit">
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<%- include('inc/footer.ejs') %>

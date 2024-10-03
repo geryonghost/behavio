@@ -1,6 +1,18 @@
 <%
 if (locals.entries != "" && locals.entries != undefined) {
   entries = locals.entries
+  userType = locals.userType
+}
+
+const lunarEmoji = {
+  'New Moon': '🌑',
+  'Waxing Crescent': '🌒',
+  'First Quarter': '🌓',
+  'Waxing Gibbous': '🌔',
+  'Full Moon': '🌕',
+  'Waning Gibbous': '🌖',
+  'Last Quarter': '🌗',
+  'Waning Crescent': '🌘',
 }
 %>
 
@@ -65,20 +77,143 @@ input[type="radio"]:checked + .radio-label {
               <td>Day</td>
               <td>Moon Phase</td>
               <td>Pressure</td>
-              <td>Rating</td>
-              <!-- <td>Team</td> -->
+              <td class="text-center">Rating</td>
+              <% if (userType == 'admin') { %>
+                <td></td>
+              <% } %>
             </tr>
           </thead>
           <tbody>
             <% entries.forEach((entry) => { %>
-            <tr class="table-info">
-              <td><%=entry.date %></td>
-              <td><%=entry.cycles.day %></td>
-              <td><%=entry.cycles.moon_phase%> <%-entry.cycles.lunarEmoji%></td>
-              <td><%=entry.pressure_in[11]%> in</td>
-              <td><%=entry.rating%></td>
-              <!-- <td><%=entry.team%></td> -->
-            </tr>
+              <%
+              switch (entry.rating) {
+                case 1:
+                case "1":
+              %>
+                <tr class="table-success">
+                  <td>
+                    <% if (userType == 'admin') { %>
+                      <a href="admin/entry_edit?entryid=<%=entry._id%>"><%=entry.date %></a>
+                    <% } else {  %>
+                      <%=entry.date%>
+                    <% } %>
+                  </td>
+                  <td><%=entry.cycles.day %></td>
+                  <td><%=entry.cycles.moon_phase%> <%-lunarEmoji[entry.cycles.moon_phase]%></td>
+                  <td><%=entry.pressure_in[11]%> in</td>
+                  <td class="text-center"><i class="fa-regular fa-face-grin fa-xl"></i></td>
+                  <td class="text-center">
+                    <% if (userType == 'admin') { %>
+                      <a href="admin/entry_delete?entryid=<%=entry._id%>"><i class="fa-regular fa-trash-can"></i></a>
+                    <% } else {  %>
+                      <%=entry.date%>
+                    <% } %>
+                  </td>
+                </tr>
+              <%
+                  break
+                case 2:
+                case "2":
+              %>
+              <tr class="table-info">
+                <td>
+                  <% if (userType == 'admin') { %>
+                    <a href="admin/entry_edit?entryid=<%=entry._id%>"><%=entry.date %></a>
+                  <% } else {  %>
+                    <%=entry.date%>
+                  <% } %>
+                </td>
+                <td><%=entry.cycles.day %></td>
+                <td><%=entry.cycles.moon_phase%> <%-lunarEmoji[entry.cycles.moon_phase]%></td>
+                <td><%=entry.pressure_in[11]%> in</td>
+                <td class="text-center"><i class="fa-regular fa-face-smile fa-xl"></i></td>
+                <td class="text-center">
+                  <% if (userType == 'admin') { %>
+                    <a href="admin/entry_delete?entryid=<%=entry._id%>"><i class="fa-regular fa-trash-can"></i></a>
+                  <% } else {  %>
+                    <%=entry.date%>
+                  <% } %>
+                </td>
+              </tr>
+              <%
+                  break
+                case 3:
+                case "3":
+              %>
+              <tr class="table-light">
+                <td>
+                  <% if (userType == 'admin') { %>
+                    <a href="admin/entry_edit?entryid=<%=entry._id%>"><%=entry.date %></a>
+                  <% } else {  %>
+                    <%=entry.date%>
+                  <% } %>
+                </td>
+                <td><%=entry.cycles.day %></td>
+                <td><%=entry.cycles.moon_phase%> <%-lunarEmoji[entry.cycles.moon_phase]%></td>
+                <td><%=entry.pressure_in[11]%> in</td>
+                <td class="text-center"><i class="fa-regular fa-face-meh fa-xl"></i></td>
+                <td class="text-center">
+                  <% if (userType == 'admin') { %>
+                    <a href="admin/entry_delete?entryid=<%=entry._id%>"><i class="fa-regular fa-trash-can"></i></a>
+                  <% } else {  %>
+                    <%=entry.date%>
+                  <% } %>
+                </td>
+              </tr>
+              <%
+                  break
+                case 4:
+                case "4":
+              %>
+              <tr class="table-warning">
+                <td>
+                  <% if (userType == 'admin') { %>
+                    <a href="admin/entry_edit?entryid=<%=entry._id%>"><%=entry.date %></a>
+                  <% } else {  %>
+                    <%=entry.date%>
+                  <% } %>
+                </td>
+                <td><%=entry.cycles.day %></td>
+                <td><%=entry.cycles.moon_phase%> <%-lunarEmoji[entry.cycles.moon_phase]%></td>
+                <td><%=entry.pressure_in[11]%> in</td>
+                <td class="text-center"><i class="fa-regular fa-face-frown fa-xl"></i></td>
+                <td class="text-center">
+                  <% if (userType == 'admin') { %>
+                    <a href="admin/entry_delete?entryid=<%=entry._id%>"><i class="fa-regular fa-trash-can"></i></a>
+                  <% } else {  %>
+                    <%=entry.date%>
+                  <% } %>
+                </td>
+              </tr>
+              <%
+                  break
+                case 5:
+                case "5":
+              %>
+              <tr class="table-danger">
+                <td>
+                  <% if (userType == 'admin') { %>
+                    <a href="admin/entry_edit?entryid=<%=entry._id%>"><%=entry.date %></a>
+                  <% } else {  %>
+                    <%=entry.date%>
+                  <% } %>
+                </td>
+                <td><%=entry.cycles.day %></td>
+                <td><%=entry.cycles.moon_phase%> <%-lunarEmoji[entry.cycles.moon_phase]%></td>
+                <td><%=entry.pressure_in[11]%> in</td>
+                <td class="text-center"><i class="fa-regular fa-face-angry fa-xl"></i></td>
+                <td class="text-center">
+                  <% if (userType == 'admin') { %>
+                    <a href="admin/entry_delete?entryid=<%=entry._id%>"><i class="fa-regular fa-trash-can"></i></a>
+                  <% } else {  %>
+                    <%=entry.date%>
+                  <% } %>
+                </td>
+              </tr>
+              <%
+                  break
+              }
+              %>
             <% }) %>
           </tbody>
         </table>

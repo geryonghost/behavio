@@ -33,11 +33,16 @@ app.get('', async (req, res) => {
     if (appStatus != 'maintenance') {
         if (req.session.loggedin) {
             const pageTitle = 'Behavio'
+            const msg = req.query.msg
+            if (msg != null && msg != 'undefined') {
+                res.render('error', { pageTitle: 'Error', message: msg })
+                return
+            }
             const entries = await logic.getEntries(req.session.team)
             if (entries.length === 0) {
                 res.render('error', { pageTitle: 'Error', message: 'An error occurred while fetching entries.' })
             } else {
-                res.render('index', { pageTitle: pageTitle, entries: entries })
+                res.render('index', { pageTitle: pageTitle, entries: entries, userType: req.session.type })
             }
         } else {
             const pageTitle = 'Login'
@@ -61,14 +66,30 @@ app.get('/logout', (req, res) => {
 
 app.post('/addentry', async (req, res) => {
     query = {
+        _id: req.body.objectId,
         date: req.body.date,
         rating: req.body.rating,
         zipcode: req.session.zipcode,
         team: req.session.team,
     }
 
-    logic.addEntry(query)
-    res.redirect('/')
+    const msg = await logic.addEntry(query)
+    if (msg != null && msg != undefined) {
+        res.redirect('/')
+    } else {
+        res.redirect('/?msg=' + msg)
+    }
+})
+
+app.post('/deleteentry', async (req, res) => {
+    const entryId = req.body.objectId
+
+    const msg = await logic.deleteEntry(entryId)
+    if (msg != null && msg != undefined) {
+        res.redirect('/')
+    } else {
+        res.redirect('/?msg=' + msg)
+    }
 })
 
 app.post('/auth', async (req, res) => {
@@ -80,12 +101,13 @@ app.post('/auth', async (req, res) => {
         const db = client.db(databaseName)
         const users = db.collection('accounts')
         try {
-            const filter = { team: 'Mill Street', password: password }
+            const filter = { team: 'Mill Street', active: true, password: password }
             const user = await users.findOne(filter)
             if (user != null) {
                 req.session.loggedin = true
                 req.session.team = user.team
                 req.session.zipcode = user.zipcode
+                req.session.type = user.type
                 res.redirect('/')
             } else {
                 const error = 'Bad login'
@@ -97,6 +119,28 @@ app.post('/auth', async (req, res) => {
     } else {
         const error = 'Empty login'
         console.error('BEH:Error', 'Empty Login')
+    }
+})
+
+// Admin Pages
+app.get('/admin/entry_edit', async (req, res) => {
+    const pageTitle = 'Entry Edit'
+    const entryId = req.query.entryid
+    const entry = await logic.getEntry(entryId)
+    if (req.session.type == 'admin') {
+        res.render('admin/entry_edit', { pageTitle: pageTitle, entry: entry })
+    } else {
+        res.redirect(req.get('Referrer'))
+    }
+})
+app.get('/admin/entry_delete', async (req, res) => {
+    const pageTitle = 'Entry Delete'
+    const entryId = req.query.entryid
+    const entry = await logic.getEntry(entryId)
+    if (req.session.type == 'admin') {
+        res.render('admin/entry_delete', { pageTitle: pageTitle, entry: entry })
+    } else {
+        res.redirect(req.get('Referrer'))
     }
 })
 
